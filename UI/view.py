@@ -30,16 +30,27 @@ class View:
     def update(self):
         self.page.update()
 
+    def mostra_artefatti_clicked(self, e):
+        # quando clicco su mostra artefatti richiamo la funzione del controller
+        self.controller.filtraggio_per_selezione()
+
     def load_interface(self):
-        """ Crea e aggiunge gli elementi di UI alla pagina e la aggiorna. """
-        # --- Sezione 1: Intestazione ---
+        # crea tutti gli elementi dell’interfaccia e li aggiunge alla pagina
+        # --- sezione 1: intestazione ---
         self.txt_titolo = ft.Text(value="Musei di Torino", size=38, weight=ft.FontWeight.BOLD)
 
-        # --- Sezione 2: Filtraggio ---
-        # TODO
+        # --- sezione 2: filtraggio ---
+        # qua devo creare i miei due dropdown (uno per i musei e uno per gli artefatti)
+        self._dropdown_musei = ft.Dropdown(label="Musei")
+        self._dropdown_artefatti = ft.Dropdown(label="Artefatti")
 
-        # Sezione 3: Artefatti
-        # TODO
+        # chiamo il controller per riempire i dropdown con i dati
+        self.controller.popola_dropdown()
+
+        # --- sezione 3: artefatti ---
+        # qui creo il pulsante che mostra gli artefatti e la lista dove li metto
+        self.pulsante_mostra_artefatti = ft.ElevatedButton("Mostra Artefatti", on_click=self.mostra_artefatti_clicked)
+        self._lista_finale = ft.ListView(expand=True, spacing=10, padding=20)
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -53,9 +64,17 @@ class View:
             ft.Divider(),
 
             # Sezione 2: Filtraggio
+            ft.Row(spacing = 50,
+                   controls=[self._dropdown_musei, self._dropdown_artefatti],
+                   alignment=ft.MainAxisAlignment.CENTER),
+            ft.Divider(),
             # TODO
 
             # Sezione 3: Artefatti
+            ft.Row(spacing = 50,
+                   controls=[self.pulsante_mostra_artefatti],
+                   alignment=ft.MainAxisAlignment.CENTER),
+            self._lista_finale,
             # TODO
         )
 
